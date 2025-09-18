@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { navLinks } from '../constants';
 
-const EcoLogo: React.FC = () => (
-  <div className="flex items-center space-x-2 group">
-    <svg className="w-8 h-8 text-green-600 transition-transform duration-300 group-hover:rotate-12" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-    <span className="font-bold text-2xl text-gray-800">EcoLeap</span>
-  </div>
-);
-
 const Header: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
-    // Prevent scrolling when mobile menu is open
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 10);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
     document.body.style.overflow = isOpen ? 'hidden' : 'unset';
     return () => {
       document.body.style.overflow = 'unset';
@@ -25,8 +26,7 @@ const Header: React.FC = () => {
     const element = document.getElementById(id);
     
     if (element) {
-      // Calculate position, accounting for sticky header
-      const headerOffset = 80; // Estimated height of the header in pixels
+      const headerOffset = 80;
       const elementPosition = element.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.scrollY - headerOffset;
 
@@ -40,16 +40,22 @@ const Header: React.FC = () => {
       setIsOpen(false);
     }
   };
+  
+  const headerClasses = `sticky top-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-gray-900/90 backdrop-blur-lg shadow-lg' : 'bg-transparent'}`;
+  const logoColorClass = 'text-white';
+  const linkColorClass = isScrolled ? 'text-gray-300 hover:text-white' : 'text-gray-100 hover:text-white';
+  const buttonMenuColorClass = 'text-white';
 
   return (
-    <header className="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-md">
+    <header className={headerClasses}>
       <div className="container mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
-        <a href="#home" onClick={(e) => handleScrollTo(e, '#home')} aria-label="EcoLeap Home">
-          <EcoLogo />
+        <a href="#home" onClick={(e) => handleScrollTo(e, '#home')} aria-label="EcoLeap Home" className="flex items-center space-x-2 group">
+             <svg className="w-8 h-8 text-green-500 transition-transform duration-300 group-hover:rotate-12" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <span className={`font-bold text-2xl transition-colors ${logoColorClass}`}>EcoLeap</span>
         </a>
         <nav className="hidden md:flex items-center space-x-8">
           {navLinks.map((link) => (
-            <a key={link.id} href={`#${link.id}`} onClick={(e) => handleScrollTo(e, `#${link.id}`)} className="text-gray-600 hover:text-green-600 transition-colors duration-300 font-medium relative after:content-[''] after:absolute after:left-0 after:bottom-[-4px] after:w-0 after:h-[2px] after:bg-green-600 after:transition-all after:duration-300 hover:after:w-full">
+            <a key={link.id} href={`#${link.id}`} onClick={(e) => handleScrollTo(e, `#${link.id}`)} className={`${linkColorClass} transition-colors duration-300 font-medium relative after:content-[''] after:absolute after:left-0 after:bottom-[-4px] after:w-0 after:h-[2px] after:bg-green-500 after:transition-all after:duration-300 hover:after:w-full`}>
               {link.title}
             </a>
           ))}
@@ -58,7 +64,7 @@ const Header: React.FC = () => {
           </a>
         </nav>
         <div className="md:hidden">
-          <button onClick={() => setIsOpen(!isOpen)} aria-label="Toggle menu" aria-expanded={isOpen} className="text-gray-800 focus:outline-none z-50 relative">
+          <button onClick={() => setIsOpen(!isOpen)} aria-label="Toggle menu" aria-expanded={isOpen} className={`${buttonMenuColorClass} focus:outline-none z-50 relative`}>
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d={isOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16m-7 6h7"}></path>
             </svg>
@@ -66,7 +72,6 @@ const Header: React.FC = () => {
         </div>
       </div>
       
-      {/* Mobile Menu Overlay */}
       <div className={`md:hidden fixed inset-0 z-40 transition-opacity duration-300 ease-in-out ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
           <div className="absolute inset-0 bg-black/50" onClick={() => setIsOpen(false)}></div>
           <div className={`absolute top-0 right-0 h-full bg-white shadow-xl w-64 transform transition-transform duration-300 ease-in-out ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}>

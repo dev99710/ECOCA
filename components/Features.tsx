@@ -5,7 +5,7 @@ import AnimatedSection from './AnimatedSection';
 import ParticleBackground from './ParticleBackground';
 
 const FeatureCard: React.FC<{ feature: Feature }> = ({ feature }) => (
-  <div className="group bg-white p-6 rounded-lg shadow-lg hover:shadow-2xl transition-all duration-300 border-t-4 border-green-500 flex flex-col h-full transform hover:-translate-y-2 z-10">
+  <div className="group bg-white/60 backdrop-blur-lg p-6 rounded-lg shadow-lg hover:shadow-2xl transition-all duration-300 border-t-4 border-green-500 flex flex-col h-full transform hover:-translate-y-2 z-10">
     {/* Main feature content */}
     <div className="flex-grow">
       <div className="flex justify-center items-center mb-4 bg-green-100 rounded-full w-20 h-20 mx-auto transition-transform duration-300 group-hover:-rotate-6 group-hover:scale-110">

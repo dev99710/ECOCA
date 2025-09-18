@@ -3,7 +3,7 @@ import AnimatedSection from './AnimatedSection';
 import { testimonials } from '../constants';
 
 const TestimonialCard: React.FC<{ testimonial: typeof testimonials[0] }> = ({ testimonial }) => (
-    <div className="bg-white p-8 rounded-lg shadow-lg flex flex-col h-full transform transition-transform duration-300 hover:-translate-y-2 border-t-4 border-green-500">
+    <div className="bg-white/60 backdrop-blur-lg p-8 rounded-lg shadow-lg flex flex-col h-full transform transition-transform duration-300 hover:-translate-y-2 border-t-4 border-green-500">
         <div className="flex-grow mb-4">
             <p className="text-gray-600 italic">"{testimonial.quote}"</p>
         </div>
@@ -20,7 +20,7 @@ const TestimonialCard: React.FC<{ testimonial: typeof testimonials[0] }> = ({ te
 
 const Testimonials: React.FC = () => {
   return (
-    <section id="testimonials" className="py-16 md:py-24 bg-pattern-2">
+    <section id="testimonials" className="py-16 md:py-24 bg-slate-100">
       <div className="container mx-auto px-4 sm:px-6">
         <AnimatedSection>
           <div className="text-center mb-12">

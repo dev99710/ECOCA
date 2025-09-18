@@ -10,14 +10,14 @@ const Footer: React.FC = () => {
   return (
     <footer className="bg-gray-900 text-white">
       <div className="container mx-auto px-4 sm:px-6 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          <div className="col-span-1 md:col-span-2">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
+          <div className="col-span-12 md:col-span-4">
             <h3 className="text-xl font-bold mb-2">EcoLeap</h3>
             <p className="text-gray-400 max-w-sm">
               Gamifying environmental education to inspire real-world action and build a sustainable future for India.
             </p>
           </div>
-          <div>
+          <div className="col-span-6 md:col-span-2">
             <h4 className="font-semibold mb-4 tracking-wider uppercase text-gray-400 text-sm">About</h4>
             <ul className="space-y-2">
               <li><a href="#" onClick={(e) => e.preventDefault()} className="text-gray-400 hover:text-white">Our Mission</a></li>
@@ -25,13 +25,25 @@ const Footer: React.FC = () => {
               <li><a href="#" onClick={(e) => e.preventDefault()} className="text-gray-400 hover:text-white">Careers</a></li>
             </ul>
           </div>
-          <div>
+          <div className="col-span-6 md:col-span-2">
             <h4 className="font-semibold mb-4 tracking-wider uppercase text-gray-400 text-sm">Legal</h4>
             <ul className="space-y-2">
               <li><a href="#" onClick={(e) => e.preventDefault()} className="text-gray-400 hover:text-white">Privacy Policy</a></li>
               <li><a href="#" onClick={(e) => e.preventDefault()} className="text-gray-400 hover:text-white">Terms of Service</a></li>
               <li><a href="#" onClick={(e) => e.preventDefault()} className="text-gray-400 hover:text-white">Contact Us</a></li>
             </ul>
+          </div>
+           <div className="col-span-12 md:col-span-4">
+            <h4 className="font-semibold mb-4 tracking-wider uppercase text-gray-400 text-sm">Stay Updated</h4>
+            <p className="text-gray-400 mb-3">Join our newsletter to get the latest updates.</p>
+            <form onSubmit={(e) => e.preventDefault()}>
+              <div className="flex">
+                <input type="email" placeholder="Enter your email" className="w-full px-4 py-2 rounded-l-md bg-gray-700 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-green-500"/>
+                <button type="submit" className="bg-green-600 hover:bg-green-700 px-4 py-2 rounded-r-md font-semibold transition-colors">
+                  Subscribe
+                </button>
+              </div>
+            </form>
           </div>
         </div>
         <div className="mt-12 pt-8 border-t border-gray-700 flex flex-col sm:flex-row justify-between items-center">

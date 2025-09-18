@@ -24,7 +24,7 @@ const InnovationCard: React.FC<{ item: typeof innovation[0], reverse?: boolean }
 
 const Innovation: React.FC = () => {
   return (
-    <section id="innovation" className="py-16 md:py-24 bg-white bg-pattern-1">
+    <section id="innovation" className="py-16 md:py-24 bg-gradient-to-b from-white to-slate-100">
       <div className="container mx-auto px-4 sm:px-6">
         <AnimatedSection>
           <div className="text-center mb-16">

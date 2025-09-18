@@ -2,6 +2,9 @@ import React, { useRef, useEffect } from 'react';
 
 const ParticleBackground: React.FC = () => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
+    // FIX: useRef was called without an initial value and was incorrectly typed.
+    // Initializing with `undefined` and updating the type to `number | undefined`.
+    const animationFrameId = useRef<number | undefined>(undefined);
 
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -9,13 +12,12 @@ const ParticleBackground: React.FC = () => {
         const ctx = canvas.getContext('2d');
         if (!ctx) return;
 
-        let animationFrameId: number;
         let particles: Particle[] = [];
-        const mouse = { x: -1000, y: -1000 };
 
         const resizeCanvas = () => {
-            canvas.width = window.innerWidth;
-            canvas.height = canvas.parentElement?.offsetHeight || window.innerHeight;
+            if (!canvas.parentElement) return;
+            canvas.width = canvas.parentElement.clientWidth;
+            canvas.height = canvas.parentElement.clientHeight;
             init();
         };
 
@@ -29,9 +31,9 @@ const ParticleBackground: React.FC = () => {
             constructor() {
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 2 + 1;
-                this.speedX = (Math.random() * 2 - 1) * 0.5;
-                this.speedY = (Math.random() * 2 - 1) * 0.5;
+                this.size = Math.random() * 2 + 0.5; // smaller particles for subtlety
+                this.speedX = (Math.random() - 0.5) * 0.4; // slightly slower
+                this.speedY = (Math.random() - 0.5) * 0.4;
             }
 
             update() {
@@ -42,7 +44,7 @@ const ParticleBackground: React.FC = () => {
             }
 
             draw() {
-                ctx!.fillStyle = 'rgba(110, 231, 183, 0.6)';
+                ctx!.fillStyle = 'rgba(110, 231, 183, 0.5)'; // slightly more transparent
                 ctx!.beginPath();
                 ctx!.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx!.fill();
@@ -51,22 +53,25 @@ const ParticleBackground: React.FC = () => {
 
         const init = () => {
             particles = [];
-            const numberOfParticles = Math.floor(canvas.width / 80) * 5;
+            // Reduce particle density based on screen size for performance
+            const isMobile = window.innerWidth < 768;
+            const particleDensity = isMobile ? 30000 : 20000;
+            const numberOfParticles = Math.floor((canvas.width * canvas.height) / particleDensity);
             for (let i = 0; i < numberOfParticles; i++) {
                 particles.push(new Particle());
             }
         };
 
         const connect = () => {
-            const opacity = 0.2;
+            const opacity = 0.1; // Reduced opacity for connections
             for (let a = 0; a < particles.length; a++) {
                 for (let b = a; b < particles.length; b++) {
-                    const distance = Math.sqrt(
-                        Math.pow(particles[a].x - particles[b].x, 2) +
-                        Math.pow(particles[a].y - particles[b].y, 2)
+                    const distance = Math.hypot(
+                        particles[a].x - particles[b].x,
+                        particles[a].y - particles[b].y
                     );
-                    if (distance < 100) {
-                        ctx!.strokeStyle = `rgba(5, 150, 105, ${1 - distance / 100 * opacity})`;
+                    if (distance < 110) {
+                        ctx!.strokeStyle = `rgba(5, 150, 105, ${1 - distance / 110 * opacity})`;
                         ctx!.lineWidth = 0.5;
                         ctx!.beginPath();
                         ctx!.moveTo(particles[a].x, particles[a].y);
@@ -76,17 +81,6 @@ const ParticleBackground: React.FC = () => {
                 }
             }
         };
-        
-        const handleMouseMove = (event: MouseEvent) => {
-            const rect = canvas.getBoundingClientRect();
-            mouse.x = event.clientX - rect.left;
-            mouse.y = event.clientY - rect.top;
-        };
-        
-        const handleMouseOut = () => {
-            mouse.x = -1000;
-            mouse.y = -1000;
-        };
 
         const animate = () => {
             ctx!.clearRect(0, 0, canvas.width, canvas.height);
@@ -95,21 +89,37 @@ const ParticleBackground: React.FC = () => {
                 p.draw();
             });
             connect();
-            animationFrameId = requestAnimationFrame(animate);
+            animationFrameId.current = requestAnimationFrame(animate);
         };
         
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    if (!animationFrameId.current) {
+                        resizeCanvas();
+                        animate();
+                    }
+                } else {
+                    if (animationFrameId.current) {
+                        cancelAnimationFrame(animationFrameId.current);
+                        animationFrameId.current = undefined;
+                    }
+                }
+            },
+            { threshold: 0.01 }
+        );
+        
+        observer.observe(canvas);
         window.addEventListener('resize', resizeCanvas);
-        canvas.addEventListener('mousemove', handleMouseMove);
-        canvas.addEventListener('mouseout', handleMouseOut);
-
+        
         resizeCanvas();
-        animate();
 
         return () => {
             window.removeEventListener('resize', resizeCanvas);
-            canvas.removeEventListener('mousemove', handleMouseMove);
-            canvas.removeEventListener('mouseout', handleMouseOut);
-            cancelAnimationFrame(animationFrameId);
+            observer.unobserve(canvas);
+            if (animationFrameId.current) {
+                cancelAnimationFrame(animationFrameId.current);
+            }
         };
     }, []);
 

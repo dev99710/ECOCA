@@ -4,17 +4,11 @@ import AnimatedSection from './AnimatedSection';
 const Hero: React.FC = () => {
   return (
     <section id="home" className="relative text-white h-[70vh] md:h-screen flex items-center justify-center overflow-hidden">
-      <video
-        autoPlay
-        loop
-        muted
-        playsInline
-        className="absolute z-0 w-auto min-w-full min-h-full max-w-none object-cover"
-      >
-        <source src="https://assets.mixkit.co/videos/preview/mixkit-rain-falling-on-the-leaves-of-a-tree-4029-large.mp4" type="video/mp4" />
-        Your browser does not support the video tag.
-      </video>
-      <div className="absolute inset-0 bg-black/50"></div>
+      {/* 
+        The background video has been replaced by a CSS animated background image 
+        (see index.html) for significantly better performance on all devices, especially mobile.
+      */}
+      <div className="absolute inset-0 bg-black/50 z-[1]"></div>
       <div className="relative container mx-auto px-4 sm:px-6 text-center z-10">
         <AnimatedSection>
           <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold leading-tight mb-4 text-gradient bg-gradient-to-r from-green-200 via-emerald-300 to-white">

@@ -1,15 +1,22 @@
 
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import Header from './components/Header';
 import Hero from './components/Hero';
-import Features from './components/Features';
-import Innovation from './components/Innovation';
-import Technology from './components/Technology';
-import Impact from './components/Impact';
-import CTA from './components/CTA';
-import Footer from './components/Footer';
 import ScrollToTopButton from './components/ScrollToTopButton';
-import Testimonials from './components/Testimonials';
+
+const Features = lazy(() => import('./components/Features'));
+const Innovation = lazy(() => import('./components/Innovation'));
+const Technology = lazy(() => import('./components/Technology'));
+const Impact = lazy(() => import('./components/Impact'));
+const Testimonials = lazy(() => import('./components/Testimonials'));
+const CTA = lazy(() => import('./components/CTA'));
+const Footer = lazy(() => import('./components/Footer'));
+
+const SectionLoader: React.FC = () => (
+    <div className="h-96 w-full flex justify-center items-center">
+        <div className="w-12 h-12 border-4 border-t-green-500 border-gray-200 rounded-full animate-spin"></div>
+    </div>
+);
 
 const App: React.FC = () => {
   return (
@@ -17,14 +24,28 @@ const App: React.FC = () => {
       <Header />
       <main>
         <Hero />
-        <Features />
-        <Innovation />
-        <Technology />
-        <Impact />
-        <Testimonials />
-        <CTA />
+        <Suspense fallback={<SectionLoader />}>
+          <Features />
+        </Suspense>
+        <Suspense fallback={<SectionLoader />}>
+          <Innovation />
+        </Suspense>
+        <Suspense fallback={<SectionLoader />}>
+          <Technology />
+        </Suspense>
+        <Suspense fallback={<SectionLoader />}>
+          <Impact />
+        </Suspense>
+        <Suspense fallback={<SectionLoader />}>
+          <Testimonials />
+        </Suspense>
+        <Suspense fallback={<SectionLoader />}>
+          <CTA />
+        </Suspense>
       </main>
-      <Footer />
+      <Suspense fallback={null}>
+        <Footer />
+      </Suspense>
       <ScrollToTopButton />
     </div>
   );

@@ -36,7 +36,7 @@ export const innovation = [
   {
     title: 'AI-Personalized Learning',
     description: 'Our platform intelligently recommends content and learning paths based on user performance, interests, and local environmental context. This ensures that education is not just engaging but also highly relevant to each student\'s surroundings.',
-    imageUrl: 'https://images.unsplash.com/photo-1620712943543-95fc6962a926?q=80&w=2070&auto=format&fit=crop'
+    imageUrl: 'https://images.unsplash.com/photo-1682002135248-2321dd0a256d?q=80&w=2070&auto=format&fit=crop'
   },
   {
     title: 'Real-Data Integration',

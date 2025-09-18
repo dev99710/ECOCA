@@ -1,14 +1,14 @@
 import React from 'react';
 
 const SocialIcon: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <a href="#" onClick={(e) => e.preventDefault()} className="text-gray-400 hover:text-green-500 transition-colors duration-300">
+  <a href="#" onClick={(e) => e.preventDefault()} className="text-gray-400 hover:text-white transition-colors duration-300">
     {children}
   </a>
 );
 
 const Footer: React.FC = () => {
   return (
-    <footer className="bg-gray-800 text-white">
+    <footer className="bg-gray-900 text-white">
       <div className="container mx-auto px-4 sm:px-6 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="col-span-1 md:col-span-2">
@@ -18,7 +18,7 @@ const Footer: React.FC = () => {
             </p>
           </div>
           <div>
-            <h4 className="font-semibold mb-3 tracking-wider">About</h4>
+            <h4 className="font-semibold mb-4 tracking-wider uppercase text-gray-400 text-sm">About</h4>
             <ul className="space-y-2">
               <li><a href="#" onClick={(e) => e.preventDefault()} className="text-gray-400 hover:text-white">Our Mission</a></li>
               <li><a href="#" onClick={(e) => e.preventDefault()} className="text-gray-400 hover:text-white">Team</a></li>
@@ -26,7 +26,7 @@ const Footer: React.FC = () => {
             </ul>
           </div>
           <div>
-            <h4 className="font-semibold mb-3 tracking-wider">Legal</h4>
+            <h4 className="font-semibold mb-4 tracking-wider uppercase text-gray-400 text-sm">Legal</h4>
             <ul className="space-y-2">
               <li><a href="#" onClick={(e) => e.preventDefault()} className="text-gray-400 hover:text-white">Privacy Policy</a></li>
               <li><a href="#" onClick={(e) => e.preventDefault()} className="text-gray-400 hover:text-white">Terms of Service</a></li>

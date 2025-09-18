@@ -2,12 +2,13 @@ import React from 'react';
 import { features } from '../constants';
 import { Feature } from '../types';
 import AnimatedSection from './AnimatedSection';
+import ParticleBackground from './ParticleBackground';
 
-const FeatureCard: React.FC<{ feature: Feature; index: number }> = ({ feature, index }) => (
-  <div className="group bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 border-t-4 border-green-500 flex flex-col h-full transform hover:-translate-y-2">
+const FeatureCard: React.FC<{ feature: Feature }> = ({ feature }) => (
+  <div className="group bg-white p-6 rounded-lg shadow-lg hover:shadow-2xl transition-all duration-300 border-t-4 border-green-500 flex flex-col h-full transform hover:-translate-y-2 z-10">
     {/* Main feature content */}
     <div className="flex-grow">
-      <div className="flex justify-center items-center mb-4 bg-green-100 rounded-full w-16 h-16 mx-auto transition-transform duration-300 group-hover:-rotate-6 group-hover:scale-110">
+      <div className="flex justify-center items-center mb-4 bg-green-100 rounded-full w-20 h-20 mx-auto transition-transform duration-300 group-hover:-rotate-6 group-hover:scale-110">
         {feature.icon}
       </div>
       <h3 className="text-xl font-bold mb-2 text-center text-gray-800">{feature.title}</h3>
@@ -41,8 +42,9 @@ const FeatureCard: React.FC<{ feature: Feature; index: number }> = ({ feature, i
 
 const Features: React.FC = () => {
   return (
-    <section id="features" className="py-16 md:py-20 bg-gray-100">
-      <div className="container mx-auto px-4 sm:px-6">
+    <section id="features" className="py-16 md:py-24 bg-slate-100 relative overflow-hidden">
+      <ParticleBackground />
+      <div className="container mx-auto px-4 sm:px-6 relative z-10">
         <AnimatedSection>
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-800">Core Features</h2>
@@ -50,13 +52,13 @@ const Features: React.FC = () => {
             <div className="mt-4 w-24 h-1 bg-green-500 mx-auto rounded"></div>
           </div>
         </AnimatedSection>
-        <AnimatedSection>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {features.map((feature, index) => (
-              <FeatureCard key={feature.title} feature={feature} index={index} />
-            ))}
-          </div>
-        </AnimatedSection>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          {features.map((feature, index) => (
+            <AnimatedSection key={feature.title} delay={index * 100}>
+              <FeatureCard feature={feature} />
+            </AnimatedSection>
+          ))}
+        </div>
       </div>
     </section>
   );

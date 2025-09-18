@@ -42,14 +42,14 @@ const Header: React.FC = () => {
   };
 
   return (
-    <header className="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+    <header className="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-md">
       <div className="container mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
         <a href="#home" onClick={(e) => handleScrollTo(e, '#home')} aria-label="EcoLeap Home">
           <EcoLogo />
         </a>
         <nav className="hidden md:flex items-center space-x-8">
           {navLinks.map((link) => (
-            <a key={link.id} href={`#${link.id}`} onClick={(e) => handleScrollTo(e, `#${link.id}`)} className="text-gray-600 hover:text-green-600 transition-colors duration-300 font-medium">
+            <a key={link.id} href={`#${link.id}`} onClick={(e) => handleScrollTo(e, `#${link.id}`)} className="text-gray-600 hover:text-green-600 transition-colors duration-300 font-medium relative after:content-[''] after:absolute after:left-0 after:bottom-[-4px] after:w-0 after:h-[2px] after:bg-green-600 after:transition-all after:duration-300 hover:after:w-full">
               {link.title}
             </a>
           ))}

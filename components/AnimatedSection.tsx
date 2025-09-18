@@ -3,9 +3,11 @@ import React, { useRef, useEffect, useState } from 'react';
 
 interface AnimatedSectionProps {
   children: React.ReactNode;
+  delay?: number;
+  className?: string;
 }
 
-const AnimatedSection: React.FC<AnimatedSectionProps> = ({ children }) => {
+const AnimatedSection: React.FC<AnimatedSectionProps> = ({ children, delay = 0, className = '' }) => {
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
 
@@ -39,9 +41,10 @@ const AnimatedSection: React.FC<AnimatedSectionProps> = ({ children }) => {
   return (
     <div
       ref={sectionRef}
-      className={`transition-all duration-1000 ease-in-out ${
+      className={`transition-all duration-1000 ease-in-out ${className} ${
         isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
       }`}
+      style={{ transitionDelay: `${delay}ms` }}
     >
       {children}
     </div>

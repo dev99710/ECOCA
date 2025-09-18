@@ -8,10 +8,12 @@ import Technology from './components/Technology';
 import Impact from './components/Impact';
 import CTA from './components/CTA';
 import Footer from './components/Footer';
+import ScrollToTopButton from './components/ScrollToTopButton';
+import Testimonials from './components/Testimonials';
 
 const App: React.FC = () => {
   return (
-    <div className="bg-gray-50 text-gray-800 font-sans">
+    <div className="bg-slate-50 text-gray-800 font-sans">
       <Header />
       <main>
         <Hero />
@@ -19,9 +21,11 @@ const App: React.FC = () => {
         <Innovation />
         <Technology />
         <Impact />
+        <Testimonials />
         <CTA />
       </main>
       <Footer />
+      <ScrollToTopButton />
     </div>
   );
 };
